@@ -112,7 +112,7 @@ define('STATS_USE_NULL_AS_ZERO', -3);
  * Originally this class was part of NumPHP (Numeric PHP package)
  *
  * @author  Jesus M. Castagnetto <jmcastagnetto@php.net>
- * @version 0.8
+ * @version 0.9
  * @access  public
  * @package Math_Stats
  */
@@ -879,7 +879,7 @@ class Math_Stats {/*{{{*/
             if ($n % 2 == 0) {
                 $median = ($arr[$h] + $arr[$h - 1]) / 2;
             } else {
-                $median = $arr[$h + 1];
+                $median = $arr[$h];
             }
             $this->_calculatedValues['median'] = $median;
         }
