@@ -706,7 +706,7 @@ class Math_Stats {/*{{{*/
             foreach ($this->_data as $val=>$freq)
                 $sdiff += $freq * pow(($val - $mean), $power);
         } else {
-            foreach ($this->_data as $val=>$freq)
+            foreach ($this->_data as $val)
                 $sdiff += pow(($val - $mean), $power);
         }
         return $sdiff;

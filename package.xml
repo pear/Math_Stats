@@ -26,10 +26,11 @@
 
   <release>
     <license>PHP</license>
-    <version>0.8.0</version>
-    <date>2002-05-15</date>
+    <version>0.8.1</version>
+    <date>2002-05-23</date>
     <notes>
-       Initial release under PEAR
+       Bug fix in __sumdiff() and in __sumabsdev(), which made
+	   the variance, standard deviation, etc. be calculated incorrectly.
     </notes>
     <state>beta</state>
     <filelist>
@@ -50,6 +51,12 @@
       <notes>
         Initial release
       </notes>
+	  <version>0.8.1</version>
+    <date>2002-05-23</date>
+    <notes>
+       Bug fix in __sumdiff() and in __sumabsdev(), which made
+	   the variance, standard deviation, etc. be calculated incorrectly.
+    </notes>
     </release>
   </changelog>
 
