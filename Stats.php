@@ -540,7 +540,9 @@ class Math_Stats {/*{{{*/
      * Handles cummulative data sets correctly
      *
      * @access  public
-     * @return  mixed   the product on success, a PEAR_Error object otherwise   
+     * @return  numeric|array|PEAR_Error  the product as a number or an array of numbers 
+     *                                    (if there is numeric overflow) on success, 
+     *                                    a PEAR_Error object otherwise   
      * @see productN()
      */
     function product() {/*{{{*/
@@ -561,7 +563,9 @@ class Math_Stats {/*{{{*/
      *
      * @access  public
      * @param   numeric $n  the exponent
-     * @return  mixed   the product on success, a PEAR_Error object otherwise   
+     * @return  numeric|array|PEAR_Error  the product as a number or an array of numbers 
+     *                                    (if there is numeric overflow) on success, 
+     *                                    a PEAR_Error object otherwise   
      * @see product()
      */
     function productN($n) {/*{{{*/
@@ -569,12 +573,17 @@ class Math_Stats {/*{{{*/
             return PEAR::raiseError('data has not been set');
         }
         $prodN = 1.0;
+        $partial = array();
         if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
             foreach($this->_data as $val=>$freq) {
                 if ($val == 0) {
                     return 0.0;
                 }
                 $prodN *= $freq * pow((double)$val, (double)$n);
+                if ($prodN > 10000*$n) {
+                    $partial[] = $prodN;
+                    $prodN = 1.0;
+                }
             }
         } else {
             foreach($this->_data as $val) {
@@ -582,9 +591,27 @@ class Math_Stats {/*{{{*/
                     return 0.0;
                 }
                 $prodN *= pow((double)$val, (double)$n);
+                if ($prodN > 10*$n) {
+                    $partial[] = $prodN;
+                    $prodN = 1.0;
+                }
             }
         }
-        return $prodN;
+        if (!empty($partial)) {
+            $partial[] = $prodN;
+            // try to reduce to a single value
+            $tmp = 1.0;
+            foreach ($partial as $val) {
+                $tmp *= $val;
+                // cannot reduce, return an array
+                if (is_infinite($tmp)) {
+                    return $partial;
+                }
+            }
+            return $tmp;
+        } else {
+            return $prodN;
+        }
 
     }/*}}}*/
 
@@ -972,13 +999,21 @@ class Math_Stats {/*{{{*/
             if (PEAR::isError($prod)) {
                 return $prod;
             }
-            if ($prod == 0.0) {
-                return 0.0;
+            if (is_array($prod)) {
+                $geomMean = 1.0;
+                foreach($prod as $val) {
+                    $geomMean *= pow($val, 1/$count);
+                }
+                $this->_calculatedValues['geometricMean'] = $geomMean;
+            } else {
+                if ($prod == 0.0) {
+                    return 0.0;
+                }
+                if ($prod < 0) {
+                    return PEAR::raiseError('The product of the data set is negative, geometric mean undefined.');
+                }
+                $this->_calculatedValues['geometricMean'] = pow($prod , 1 / $count);
             }
-            if ($prod < 0) {
-                return PEAR::raiseError('The product of the data set is negative, geometric mean undefined.');
-            }
-            $this->_calculatedValues['geometricMean'] = pow($prod , 1 / $count);
         }
         return $this->_calculatedValues['geometricMean'];
     }/*}}}*/

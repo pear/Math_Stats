@@ -26,19 +26,13 @@
 
   <release>
     <license>PHP</license>
-    <version>0.9.0beta2</version>
-    <date>2003-06-04</date>
+    <version>0.9.0beta3</version>
+    <date>2003-06-12</date>
     <notes>
 <![CDATA[
-This is a bug fix release. Fixes (finally) an old bug in calculation of the
-median. Users of any previous version are recommended to upgrade.
-
-When I fixed a previous bug in the calculation of the median, I forgot to apply
-the full fix, so it was calculating an erroneous value for data sets with an 
-odd number of entries.
-
-Thanks to Diego Puga for pointing this out. It is good to get bug reports
-when one is getting old and forgetful. ;-)
+Modified the productN() method to try and avoid numeric overflow, and in case
+there is overflow to return an array of values to be multiplied, instead of
+a single resulting value.
 ]]>
     </notes>
     <state>beta</state>
@@ -58,6 +52,25 @@ when one is getting old and forgetful. ;-)
     </filelist>
   </release>
   <changelog>
+  <release>
+    <license>PHP</license>
+    <version>0.9.0beta2</version>
+    <date>2003-06-04</date>
+    <notes>
+<![CDATA[
+This is a bug fix release. Fixes (finally) an old bug in calculation of the
+median. Users of any previous version are recommended to upgrade.
+
+When I fixed a previous bug in the calculation of the median, I forgot to apply
+the full fix, so it was calculating an erroneous value for data sets with an 
+odd number of entries.
+
+Thanks to Diego Puga for pointing this out. It is good to get bug reports
+when one is getting old and forgetful. ;-)
+]]>
+    </notes>
+    <state>beta</state>
+  </release>
   <release>
     <license>PHP</license>
     <version>0.9.0beta1</version>

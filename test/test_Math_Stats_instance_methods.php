@@ -39,7 +39,7 @@ ini_set('precision', __PRECISION);
  * Unit test class Math_Stats
  *
  */
-class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
+class Math_Stats_UnitTest extends PHPUnit_TestCase {/*{{{*/
 
     var $s1;
     var $s2a;
@@ -57,7 +57,7 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
     // cummulative data set with nulls
     var $data4 = array("3"=>4, "plink"=>2, "bar is not foo"=>6, "0.5"=>3, "0.9"=>2, "2.4"=>7);
 
-    function Math_Matrix_Instance_Methods_Test($name) {/*{{{*/
+    function Math_Stats_UnitTest($name) {/*{{{*/
         $this->PHPUnit_TestCase($name);
     }/*}}}*/
 
@@ -884,7 +884,7 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 
 }/*}}}*/
 
-$suite = new PHPUnit_TestSuite('Math_Stats_Unit_Test');
+$suite = new PHPUnit_TestSuite('Math_Stats_UnitTest');
 $result = PHPUnit::run($suite);
 echo $result->toString();
 
