@@ -26,10 +26,13 @@
 
   <release>
     <license>PHP</license>
-    <version>0.9.0</version>
-    <date>2003-06-01</date>
+    <version>0.9.0beta1</version>
+    <date>2003-06-02</date>
     <notes>
 <![CDATA[
+This is a beta release that containes new not thoroughly tested methods and
+algorithms.
+
 Many changes in the existing methods, and a number of new ones:
 
 - Added better error handling.
