@@ -252,8 +252,9 @@ class Math_Stats {/*{{{*/
                 "mode" => $this->mode(),
                 "midrange" => $this->midrange(),
                 "stdev" => $this->stDev(),
-                "absDev" => $this->absDev(),
+                "absdev" => $this->absDev(),
                 "variance" => $this->variance(),
+                "std_error_of_mean" => $this->stdErrorOfMean(),
                 "skewness" => $this->skewness(),
                 "kurtosis" => $this->kurtosis(),
                 "coeff_of_variation" => $this->coeffOfVariation(),
@@ -520,6 +521,11 @@ class Math_Stats {/*{{{*/
      * Calculates the skewness of the data distribution in the set
      * The skewness measures the degree of asymmetry of a distribution,
      * and is related to the third central moment of a distribution.
+     * A normal distribution has a skewness = 0
+     * A distribution with a tail off towards the high end of the scale
+     * (positive skew) has a skewness > 0
+     * A distribution with a tail off towards the low end of the scale
+     * (negative skew) has a skewness < 0
      * Handles cummulative data sets correctly
      *
      * @access  public
@@ -541,6 +547,10 @@ class Math_Stats {/*{{{*/
      * The kurtosis measures the degrees of peakedness of a distribution.
      * It is also callesd the "excess" or "excess coefficient", and is
      * a normalized form of the fourth central moment of a distribution.
+     * A normal distributions has kurtosis = 0
+     * A narrow and peaked (leptokurtic) distribution has a
+     * kurtosis > 0
+     * A flat and wide (platykurtic) distribution has a kurtosis < 0
      * Handles cummulative data sets correctly
      *
      * @access  public
@@ -681,6 +691,29 @@ class Math_Stats {/*{{{*/
         if ($this->_data == null)
             return PEAR::raiseError("data has not been set");
         return $this->stDev() / $this->mean();
+    }/*}}}*/
+
+    /**
+     * Calculates the standard error of the mean.
+     * It is the standard deviation of the sampling distribution of
+     * the mean. The formula is:
+     *
+     * S.E. Mean = SD / (N)^(1/2)
+     *
+     * This formula does not assume a normal distribution, and shows
+     * that the size of the standard error of the mean is inversely
+     * proportional to the square root of the sample size. 
+     *
+     * @access  public
+     * @return  mixed   the standard error of the mean on success, a PEAR_Error object otherwise  
+     * @see stDev()
+     * @see count()
+     * @see calc()
+     */
+    function stdErrorOfMean() {/*{{{*/
+        if ($this->_data == null)
+            return PEAR::raiseError("data has not been set");
+        return $this->stDev() / sqrt($this->count());
     }/*}}}*/
 
     /**
