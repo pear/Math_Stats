@@ -76,13 +76,13 @@ define("STATS_USE_NULL_AS_ZERO", -3);
  * for example the data set:
  *
  * <pre>
- * $data1 = array (1,2,1,1,1,1,3,3,4,4,3,2,2,1,1,2,3,3,2,2,1,1,2,2);
+ * $data1 = array (1,2,1,1,1,1,3,3,4.1,3,2,2,4.1,1,1,2,3,3,2,2,1,1,2,2);
  * </pre>
  *
  * can be epxressed more compactly as:
  *
  * <pre>
- * $data2 = array(1=>9, 2=>8, 3=>5, 4=>2);
+ * $data2 = array("1"=>9, "2"=>8, "3"=>5, "4.1"=>2);
  * </pre>
  *
  * Example of use:
@@ -747,13 +747,15 @@ class Math_Stats {/*{{{*/
         $flag = ($this->_dataOption == STATS_DATA_CUMMULATIVE);
         foreach ($this->_data as $key=>$value) {
             $d = ($flag) ? $key : $value;
+            $v = ($flag) ? $value : $key;
             if (!is_numeric($d)) {
                 switch ($this->_nullOption) {
                     case STATS_IGNORE_NULL :
-                        unset($this->_data[$key]);
+                        unset($this->_data["$key"]);
                         break;
                     case STATS_USE_NULL_AS_ZERO:
-                        $this->_data[$key] = 0;
+                        unset($this->_data["$key"]);
+                        $this->_data[0] += $v;
                         break;
                     case STATS_REJECT_NULL :
                     default:
