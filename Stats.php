@@ -1213,14 +1213,18 @@ class Math_Stats {/*{{{*/
             } else {
                 $freq = array();
                 foreach ($this->_data as $val) {
-                    $freq["$val"]++;
+                    if (array_key_exists($val, $freq)) {
+                        $freq["$val"]++;
+                    } else {
+                        $freq["$val"] = 1;
+                    }
                 }
                 ksort($freq);
             }
             $this->_calculatedValues['frequency'] = $freq;
         }
         return $this->_calculatedValues['frequency'];
-    }/*}}}*/ 
+    }/*}}}*/
 
     /**
      * The quartiles are defined as the values that divide a sorted
