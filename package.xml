@@ -7,7 +7,7 @@
   <name>Math_Stats</name>
   <summary>Classes to calculate statistical parameters</summary>
   <description>
-   Classes to calculate statistical parameters of numerical arrays
+   Package to calculate statistical parameters of numerical arrays
    of data. The data can be in a simple numerical array, or in a 
    cummulative numerical array. A cummulative array, has the value
    as the index and the number of repeats as the value for the
@@ -26,6 +26,51 @@
 
   <release>
     <license>PHP</license>
+    <version>0.9.0</version>
+    <date>2003-06-01</date>
+    <notes>
+<![CDATA[
+Many changes in the existing methods, and a number of new ones:
+
+- Added better error handling.
+- Refactored existing methods to delegate calculations better
+- Added value caching for invariant statistical parameters
+- Added optional parameters to some existing methods to enhance their
+  processing or output. Preserve the original behaviour as default so
+  as not breack backwards compatibility
+- Added new methods:
+  - range()
+  - geometricMean()
+  - harmonicMean()
+  - product()
+  - productN()
+  - percentile()
+  - quartiles()
+  - quartileDeviation()
+  - interquartileRange()
+  - quartileVariationCoefficient()
+- Added a unit test class based on PHPUnit
+]]>
+    </notes>
+    <state>beta</state>
+    <filelist>
+      <dir name="/" baseinstalldir="Math">
+       <file role="php">Stats.php</file>
+       <dir name="examples" role="example">
+        <file role="php">ex_stats_simple.php</file>
+        <file role="php">ex_stats_cummulative_data.php</file>
+       </dir>
+       <dir name="test" role="test">
+        <file role="php">instance_methods.php</file>
+        <file role="php">instance_methods-data.php</file>
+       </dir>
+       <file role="doc">README-Math_Stats</file>
+      </dir>
+    </filelist>
+  </release>
+  <changelog>
+  <release>
+    <license>PHP</license>
     <version>0.8.5</version>
     <date>2003-05-27</date>
     <notes>
@@ -38,18 +83,7 @@
      pointing this problem out.
     </notes>
     <state>stable</state>
-    <filelist>
-      <dir name="/" baseinstalldir="Math">
-      <file role="php">Stats.php</file>
-        <dir name="examples" role="example">
-          <file role="php">ex_stats_simple.php</file>
-          <file role="php">ex_stats_cummulative_data.php</file>
-        </dir>
-      <file role="doc">README-Math_Stats</file>
-      </dir>
-    </filelist>
   </release>
-  <changelog>
   <release>
     <version>0.8.4</version>
     <date>2003-05-16</date>
