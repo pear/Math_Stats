@@ -16,8 +16,6 @@
 // | Authors: Jesus M. Castagnetto <jmcastagnetto@php.net>                |
 // +----------------------------------------------------------------------+
 // 
-// Matrix definition and manipulation package
-// 
 // $Id$
 //
 
