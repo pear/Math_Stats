@@ -29,7 +29,7 @@
 
 require_once 'PHPUnit.php';
 require_once 'Math/Stats.php';
-require_once './instance_methods-data.php';
+require_once './test_Math_Stats_instance_methods-data.php';
 
 define('__PRECISION', 12);
 define('__DELTA', pow(10, -1 * (__PRECISION - 4)));
