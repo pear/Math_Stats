@@ -39,6 +39,8 @@ Many changes in the existing methods, and a number of new ones:
   processing or output. Preserve the original behaviour as default so
   as not breack backwards compatibility
 - Added new methods:
+  - center()
+  - studentize()
   - range()
   - geometricMean()
   - harmonicMean()
@@ -49,7 +51,7 @@ Many changes in the existing methods, and a number of new ones:
   - quartileDeviation()
   - interquartileRange()
   - quartileVariationCoefficient()
-- Added a unit test class based on PHPUnit
+- Added a unit test class based on PEAR::PHPUnit
 ]]>
     </notes>
     <state>beta</state>

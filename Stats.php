@@ -246,6 +246,73 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
 
     /**
+     * Transforms the data by substracting each entry from the mean and
+     * dividing by its standard deviation. This will reset all pre-calculated
+     * values to their original (unset) defaults.
+     *
+     * @access public
+     * @return mixed true on success, a PEAR_Error object otherwise
+     * @see mean()
+     * @see stDev()
+     * @see setData()
+     */
+    function studentize() {/*{{{*/
+        $mean = $this->mean();
+        if (PEAR::isError($mean)) {
+            return $mean;
+        }
+        $std = $this->stDev();
+        if (PEAR::isError($std)) {
+            return $std;
+        }
+        if ($std == 0) {
+            return PEAR::raiseError('cannot studentize data, standard deviation is zero.');
+        }
+        $arr  = array();
+        if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
+            foreach ($this->_data as $val=>$freq) {
+                $newval = ($val - $mean) / $std;
+                $arr["$newval"] = $freq;
+            }
+        } else {
+            foreach ($this->_data as $val) {
+                $newval = ($val - $mean) / $std;
+                $arr[] = $newval;
+            }
+        }
+        return $this->setData($arr, $this->_dataOption);
+    }/*}}}*/
+
+    /**
+     * Transforms the data by substracting each entry from the mean.
+     * This will reset all pre-calculated values to their original (unset) defaults.
+     *
+     * @access public
+     * @return mixed true on success, a PEAR_Error object otherwise
+     * @see mean()
+     * @see setData()
+     */
+    function center() {/*{{{*/
+        $mean = $this->mean();
+        if (PEAR::isError($mean)) {
+            return $mean;
+        }
+        $arr  = array();
+        if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
+            foreach ($this->_data as $val=>$freq) {
+                $newval = $val - $mean;
+                $arr["$newval"] = $freq;
+            }
+        } else {
+            foreach ($this->_data as $val) {
+                $newval = $val - $mean;
+                $arr[] = $newval;
+            }
+        }
+        return $this->setData($arr, $this->_dataOption);
+    }/*}}}*/
+       
+    /**
      * Calculates the basic or full statistics for the data set
      * 
      * @access  public
@@ -573,7 +640,7 @@ class Math_Stats {/*{{{*/
      * @access public
      * @return mixed the value of the range on success, a PEAR_Error object otherwise.
      */
-    function range() {
+    function range() {/*{{{*/
         if (!array_key_exists('range', $this->_calculatedValues)) {
             $min = $this->min();
             if (PEAR::isError($min)) {
@@ -587,7 +654,7 @@ class Math_Stats {/*{{{*/
         }
         return $this->_calculatedValues['range'];
 
-    }
+    }/*}}}*/
 
     /**
      * Calculates the variance (unbiased) of the data points in the set
@@ -1222,7 +1289,6 @@ class Math_Stats {/*{{{*/
             $q1 = $quart['25'];
             $d = $q3 - $q1;
             $s = $q3 + $q1;
-            echo "** D = $d :: S = $s\n";
             $this->_calculatedValues['quartileVariationCoefficient'] = 100 * $d / $s;
         }
         return $this->_calculatedValues['quartileVariationCoefficient'];
@@ -1408,13 +1474,13 @@ class Math_Stats {/*{{{*/
      *              is false, then a string with the error message will be returned,
      *              otherwise the value will not be modified and returned as passed.
      */
-    function __format($v, $useErrorObject=true) {
+    function __format($v, $useErrorObject=true) {/*{{{*/
         if (PEAR::isError($v) && $useErrorObject == false) {
             return $v->getMessage();
         } else {
             return $v;
         }
-    }
+    }/*}}}*/
 
     /**
      * Utility function to validate the data and modify it

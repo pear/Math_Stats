@@ -791,6 +791,32 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 							'', __DELTA);
 	}/*}}}*/
 
+    function testStudentize() {/*{{{*/
+        $this->s1->studentize();
+        $this->assertEquals($GLOBALS['testStudentize_out1'], 
+                            $this->formatArray($this->s1->getData()));
+        $this->assertEquals($GLOBALS['testStudentize_out2'], 
+                            $this->formatArray($this->s1->calcFull(false)));
+        $this->s3->studentize();
+        $this->assertEquals($GLOBALS['testStudentize_out3'], 
+                            $this->formatArray($this->s3->getData()));
+        $this->assertEquals($GLOBALS['testStudentize_out4'], 
+                            $this->formatArray($this->s3->calcFull(false)));
+    }/*}}}*/
+
+    function testCenter() {/*{{{*/
+        $this->s1->center();
+        $this->assertEquals($GLOBALS['testCenter_out1'], 
+                            $this->formatArray($this->s1->getData()));
+        $this->assertEquals($GLOBALS['testCenter_out2'], 
+                            $this->formatArray($this->s1->calcFull(false)));
+        $this->s3->center();
+        $this->assertEquals($GLOBALS['testCenter_out3'], 
+                            $this->formatArray($this->s3->getData()));
+        $this->assertEquals($GLOBALS['testCenter_out4'], 
+                            $this->formatArray($this->s3->calcFull(false)));
+    }/*}}}*/
+
     function formatNumber($n) {/*{{{*/
         return (float) sprintf('%.'.(__PRECISION - 1), $n);
     }/*}}}*/
@@ -812,7 +838,7 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 
 $suite = new PHPUnit_TestSuite('Math_Stats_Unit_Test');
 $result = PHPUnit::run($suite);
-echo $result->toString()."\n";
+echo $result->toString();
 
 // vim: ts=4:sw=4:et:
 // vim6: fdl=1: fdm=marker:
