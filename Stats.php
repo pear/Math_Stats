@@ -408,8 +408,10 @@ class Math_Stats {/*{{{*/
                 'frequency' => $this->__format($this->frequency(), $returnErrorObject),
                 'quartiles' => $this->__format($this->quartiles(), $returnErrorObject),
                 'interquartile_range' => $this->__format($this->interquartileRange(), $returnErrorObject),
+                'interquartile_mean' => $this->__format($this->interquartileMean(), $returnErrorObject),
                 'quartile_deviation' => $this->__format($this->quartileDeviation(), $returnErrorObject),
-                'quartile_variation_coefficient' => $this->__format($this->quartileVariationCoefficient(), $returnErrorObject)
+                'quartile_variation_coefficient' => $this->__format($this->quartileVariationCoefficient(), $returnErrorObject),
+                'quartile_skewness_coefficient' => $this->__format($this->quartileSkewnessCoefficient(), $returnErrorObject)
             );
     }/*}}}*/
 
@@ -1218,6 +1220,44 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
     
     /**
+     * The interquartile mean is defined as the mean of the values left 
+     * after discarding the lower 25% and top 25% ranked values, i.e.:
+     *
+     *  interquart mean = mean(<P(25),P(75)>)
+     *
+     *  where: P = percentile
+     * 
+     * @todo need to double check the equation
+     * @access public
+     * @return mixed a numeric value on success, a PEAR_Error otherwise
+     * @see quartiles()
+     */
+    function interquartileMean() {/*{{{*/
+        if (!array_key_exists('interquartileMean', $this->_calculatedValues)) {
+            $quart = $this->quartiles();
+            if (PEAR::isError($quart)) {
+                return $quart;
+            }
+            $q3 = $quart['75'];
+            $q1 = $quart['25'];
+            $sum = 0;
+            $n = 0;
+            foreach ($this->getData(true) as $val) {
+                if ($val >= $q1 && $val <= $q3) {
+                    $sum += $val;
+                    $n++;
+                }
+            }
+            if ($n == 0) {
+                return PEAR::raiseError('error calculating interquartile mean, '.
+                                        'empty interquartile range of values.');
+            }
+            $this->_calculatedValues['interquartileMean'] = $sum / $n;
+        }
+        return $this->_calculatedValues['interquartileMean'];
+    }/*}}}*/
+
+    /**
      * The interquartile range is the distance between the 75th and 25th
      * percentiles. Basically the range of the middle 50% of the data set,
      * and thus is not affected by outliers or extreme values.
@@ -1267,8 +1307,7 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
 
     /**
-     * The quartile variation coefficient is the percent ratio of the
-     * interquartile range and the sum of the 75th and 25th percentiles:
+     * The quartile variation coefficient is defines as follows:
      *
      *  quart var coeff = 100 * (P(75) - P(25)) / (P(75) + P(25))
      *
@@ -1293,7 +1332,36 @@ class Math_Stats {/*{{{*/
         }
         return $this->_calculatedValues['quartileVariationCoefficient'];
     }/*}}}*/
-    
+
+    /**
+     * The quartile skewness coefficient (also known as Bowley Skewness),
+     * is defined as follows:
+     *
+     *  quart skewness coeff = (P(25) - 2*P(50) + P(75)) / (P(75) - P(25))
+     *
+     *  where: P = percentile
+     * 
+     * @todo need to double check the equation
+     * @access public
+     * @return mixed a numeric value on success, a PEAR_Error otherwise
+     * @see quartiles()
+     */
+    function quartileSkewnessCoefficient() {/*{{{*/
+        if (!array_key_exists('quartileSkewnessCoefficient', $this->_calculatedValues)) {
+            $quart = $this->quartiles();
+            if (PEAR::isError($quart)) {
+                return $quart;
+            }
+            $q3 = $quart['75'];
+            $q2 = $quart['50'];
+            $q1 = $quart['25'];
+            $d = $q3 - 2*$q2 + $q1;
+            $s = $q3 - $q1;
+            $this->_calculatedValues['quartileSkewnessCoefficient'] = $d / $s;
+        }
+        return $this->_calculatedValues['quartileSkewnessCoefficient'];
+    }/*}}}*/
+
     /**
      * The pth percentile is the value such that p% of the a sorted data set
      * is smaller than it, and (100 - p)% of the data is larger.

@@ -258,8 +258,8 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 	}/*}}}*/
 
     function testProductN() {/*{{{*/
-        $this->assertEquals($this->formatNumber(255574412388),
-							$this->formatNumber($this->s1->productN(2)),
+        $this->assertEquals('255574412388',
+							(string)$this->s1->productN(2),
 							'', __DELTA);
         $this->assertEquals($this->formatNumber(7.08577977246E-05),
 							$this->formatNumber($this->s2a->productN(2)),
@@ -267,11 +267,11 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
         $this->assertEquals($this->formatNumber(0),
 							$this->formatNumber($this->s2b->productN(3)),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(428617.299597),
-							$this->formatNumber($this->s3->productN(2)),
+        $this->assertEquals('428617.299597',
+							(string)$this->s3->productN(2),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(5714.053632),
-							$this->formatNumber($this->s4a->productN(3)),
+        $this->assertEquals('5714.053632',
+							(string)$this->s4a->productN(3),
 							'', __DELTA);
         $this->assertEquals($this->formatNumber(0),
 							$this->formatNumber($this->s4b->productN(2)),
@@ -426,22 +426,22 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 	}/*}}}*/
 
     function testAbsDev() {/*{{{*/
-        $this->assertEquals($this->formatNumber(1.33472222222),
+        $this->assertEquals($this->formatNumber(2.50265151515),
 							$this->formatNumber($this->s1->variance()),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(0.448066666667),
+        $this->assertEquals($this->formatNumber(0.39755987867),
 							$this->formatNumber($this->s2a->variance()),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(0.42395),
+        $this->assertEquals($this->formatNumber(0.31145551714),
 							$this->formatNumber($this->s2b->variance()),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(0.754993141289),
+        $this->assertEquals($this->formatNumber(0.69923588319),
 							$this->formatNumber($this->s3->variance()),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(0.84140625),
+        $this->assertEquals($this->formatNumber(0.952625),
 							$this->formatNumber($this->s4a->variance()),
 							'', __DELTA);
-        $this->assertEquals($this->formatNumber(1.17395833333),
+        $this->assertEquals($this->formatNumber(1.55461956522),
 							$this->formatNumber($this->s4b->variance()),
 							'', __DELTA);
 	}/*}}}*/
@@ -580,7 +580,7 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 	}/*}}}*/
 
     function testHarmonicMean() {/*{{{*/
-        $this->assertEquals($this->formatNumber(2.60406264194),
+        $this->assertEquals($this->formatNumber(2.98753652642),
 							$this->formatNumber($this->s1->geometricMean()),
 							'', __DELTA);
         $this->assertEquals($this->formatNumber(0.319605399284),
@@ -698,6 +698,27 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
         $this->assertEquals($GLOBALS['testQuartiles_out6'], $this->formatArray($this->s4b->quartiles()));
     }/*}}}*/
 
+    function testInterQuartileMean() {/*{{{*/
+        $this->assertEquals($this->formatNumber(2.875),
+							$this->formatNumber($this->s1->interquartileMean()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(0.420075),
+							$this->formatNumber($this->s2a->interquartileMean()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(0.28005),
+							$this->formatNumber($this->s2b->interquartileMean()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(1.98805555556),
+							$this->formatNumber($this->s3->interquartileMean()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(2.06666666667),
+							$this->formatNumber($this->s4a->interquartileMean()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(1.005),
+							$this->formatNumber($this->s4b->interquartileMean()),
+							'', __DELTA);
+	}/*}}}*/
+
     function testInterquartileRange() {/*{{{*/
         $this->assertEquals($this->formatNumber(2.75),
 							$this->formatNumber($this->s1->interquartileRange()),
@@ -770,6 +791,36 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
 							'', __DELTA);
 	}/*}}}*/
 
+    function testQuartileSkewnessCoefficient() {/*{{{*/
+        /*
+        echo "quartileSkewnessCoefficient\n";
+        echo $this->s1->quartileSkewnessCoefficient() ."\n";
+        echo $this->s2a->quartileSkewnessCoefficient()."\n";
+        echo $this->s2b->quartileSkewnessCoefficient()."\n";
+        echo $this->s3->quartileSkewnessCoefficient() ."\n";
+        echo $this->s4a->quartileSkewnessCoefficient()."\n";
+        echo $this->s4b->quartileSkewnessCoefficient()."\n";
+        */
+        $this->assertEquals($this->formatNumber(0.2),
+							$this->formatNumber($this->s1->quartileSkewnessCoefficient()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(-0.3258743577),
+							$this->formatNumber($this->s2a->quartileSkewnessCoefficient()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(0.31924058711),
+							$this->formatNumber($this->s2b->quartileSkewnessCoefficient()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(-0.88644067797),
+							$this->formatNumber($this->s3->quartileSkewnessCoefficient()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(-0.66666666667),
+							$this->formatNumber($this->s4a->quartileSkewnessCoefficient()),
+							'', __DELTA);
+        $this->assertEquals($this->formatNumber(0.25),
+							$this->formatNumber($this->s4b->quartileSkewnessCoefficient()),
+							'', __DELTA);
+	}/*}}}*/
+
     function testPercentile() {/*{{{*/
         $this->assertEquals($this->formatNumber(2),
 							$this->formatNumber($this->s1->percentile(25)),
@@ -818,7 +869,7 @@ class Math_Stats_Unit_Test extends PHPUnit_TestCase {/*{{{*/
     }/*}}}*/
 
     function formatNumber($n) {/*{{{*/
-        return (float) sprintf('%.'.(__PRECISION - 1), $n);
+        return (float) sprintf('%.'.(__PRECISION - 1).'f', $n);
     }/*}}}*/
 
     function formatArray($arr,$spcs=0) {/*{{{*/
