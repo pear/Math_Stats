@@ -46,11 +46,12 @@
   </release>
   <changelog>
     <release>
-      <version>0.8.0</version>
-      <date>2002-05-15</date>
-      <notes>
-        Initial release
-      </notes>
+     <version>0.8.3</version>
+     <date>2002-05-23</date>
+     <notes>
+       Another bug fix release. Version 0.8.2 was not released due
+	   to wrong tags and bugs.
+     </notes>
     </release>
     <release>
 	  <version>0.8.1</version>
@@ -61,12 +62,11 @@
       </notes>
     </release>
     <release>
-     <version>0.8.3</version>
-     <date>2002-05-23</date>
-     <notes>
-       Another bug fix release. Version 0.8.2 was not released due
-	   to wrong tags and bugs.
-     </notes>
+      <version>0.8.0</version>
+      <date>2002-05-15</date>
+      <notes>
+        Initial release
+      </notes>
     </release>
   </changelog>
 
