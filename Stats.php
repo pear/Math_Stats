@@ -146,6 +146,15 @@ class Math_Stats {/*{{{*/
      */
     var $_nullOption;
 
+    /**
+     * Array for caching result values, should be reset
+     * when using setData()
+     *
+     * @access private
+     * @var array
+     */
+    var $_calculatedValues = array();
+
     /*}}}*/
     
     /**
@@ -169,10 +178,12 @@ class Math_Stats {/*{{{*/
      * @return  mixed   true on success, a PEAR_Error object otherwise
      */
     function setData($arr, $opt=STATS_DATA_SIMPLE) {/*{{{*/
+        if (!is_array($arr)) {
+            return PEAR::raiseError("invalid data, an array of numeric data was expected");
+        }
         $this->_data = null;
         $this->_dataOption = null;
-        if (!is_array($arr))
-            return PEAR::raiseError("invalid data, an array of numeric data was expected");
+        $this->_calculatedValues = array();
         if ($opt == STATS_DATA_SIMPLE) {
             $this->_dataOption = $opt;
             $this->_data = array_values($arr);
@@ -313,12 +324,18 @@ class Math_Stats {/*{{{*/
      * @see max()
      */
     function min() {/*{{{*/
-        if ($this->_data == null)
+        if ($this->_data == null) {
             return PEAR::raiseError("data has not been set");
-        if ($this->_dataOption == STATS_DATA_CUMMULATIVE)
-            return min(array_keys($this->_data));
-        else
-            return min($this->_data);
+        }
+        if (!array_key_exists('min', $this->_calculatedValues)) {
+            if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
+                $min = min(array_keys($this->_data));
+            } else {
+                $min = min($this->_data);
+            }
+            $this->_calculatedValues['min'] = $min;
+        }
+        return $this->_calculatedValues['min'];
     }/*}}}*/
 
     /**
@@ -331,12 +348,18 @@ class Math_Stats {/*{{{*/
      * @see min()
      */
     function max() {/*{{{*/
-        if ($this->_data == null)
+        if ($this->_data == null) {
             return PEAR::raiseError("data has not been set");
-        if ($this->_dataOption == STATS_DATA_CUMMULATIVE)
-            return max(array_keys($this->_data));
-        else
-            return max($this->_data);
+        }
+        if (!array_key_exists('max', $this->_calculatedValues)) {
+            if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
+                $max = max(array_keys($this->_data));
+            } else {
+                $max = max($this->_data);
+            }
+            $this->_calculatedValues['max'] = $max;
+        }
+        return $this->_calculatedValues['max'];
     }/*}}}*/
 
     /**
@@ -350,7 +373,15 @@ class Math_Stats {/*{{{*/
      * @see sumN()
      */
     function sum() {/*{{{*/
-        return $this->sumN(1);
+        if (!array_key_exists('sum', $this->_calculatedValues)) {
+            $sum = $this->sumN(1);
+            if (PEAR::isError($sum)) {
+                return $sum;
+            } else {
+                $this->_calculatedValues['sum'] = $sum;
+            }
+        }
+        return $this->_calculatedValues['sum'];
     }/*}}}*/
 
     /**
@@ -364,7 +395,15 @@ class Math_Stats {/*{{{*/
      * @see sumN()
      */
     function sum2() {/*{{{*/
-        return $this->sumN(2);
+        if (!array_key_exists('sum2', $this->_calculatedValues)) {
+            $sum2 = $this->sumN(1);
+            if (PEAR::isError($sum2)) {
+                return $sum2;
+            } else {
+                $this->_calculatedValues['sum2'] = $sum2;
+            }
+        }
+        return $this->_calculatedValues['sum2'];
     }/*}}}*/
 
     /**
@@ -379,17 +418,73 @@ class Math_Stats {/*{{{*/
      * @see sum2()
      */
     function sumN($n) {/*{{{*/
-        if ($this->_data == null)
+        if ($this->_data == null) {
             return PEAR::raiseError("data has not been set");
+        }
         $sumN = 0;
         if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
-            foreach($this->_data as $val=>$freq)
+            foreach($this->_data as $val=>$freq) {
                 $sumN += $freq * pow((double)$val, (double)$n);
+            }
         } else {
-            foreach($this->_data as $val)
+            foreach($this->_data as $val) {
                 $sumN += pow((double)$val, (double)$n);
+            }
         }
         return $sumN;
+    }/*}}}*/
+
+    /**
+     * Calculates PROD { (xi) }, (the product of all observations)
+     * Handles cummulative data sets correctly
+     *
+     * @access  public
+     * @return  mixed   the product on success, a PEAR_Error object otherwise   
+     * @see productN()
+     */
+    function product() {/*{{{*/
+        if (!array_key_exists('product', $this->_calculatedValues)) {
+            $product = $this->productN(1);
+            if (PEAR::isError($product)) {
+                return $product;
+            } else {
+                $this->_calculatedValues['product'] = $product;
+            }
+        }
+        return $this->_calculatedValues['product'];
+    }/*}}}*/
+
+    /**
+     * Calculates PROD { (xi)^n }, which is the product of all observations
+     * Handles cummulative data sets correctly
+     *
+     * @access  public
+     * @param   numeric $n  the exponent
+     * @return  mixed   the product on success, a PEAR_Error object otherwise   
+     * @see product()
+     */
+    function productN($n) {/*{{{*/
+        if ($this->_data == null) {
+            return PEAR::raiseError("data has not been set");
+        }
+        $prodN = 1.0;
+        if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
+            foreach($this->_data as $val=>$freq) {
+                if ($val == 0) {
+                    return 0.0;
+                }
+                $prodN *= $freq * pow((double)$val, (double)$n);
+            }
+        } else {
+            foreach($this->_data as $val) {
+                if ($val == 0) {
+                    return 0.0;
+                }
+                $prodN *= pow((double)$val, (double)$n);
+            }
+        }
+        return $prodN;
+
     }/*}}}*/
 
     /**
@@ -401,15 +496,20 @@ class Math_Stats {/*{{{*/
      * @see calc()
      */
     function count() {/*{{{*/
-        if ($this->_data == null)
+        if ($this->_data == null) {
             return PEAR::raiseError("data has not been set");
-        if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
-            foreach($this->_data as $freq)
-                $count += $freq;
-        } else {
-            $count = count($this->_data);
         }
-        return $count;
+        if (!array_key_exists('count', $this->_calculatedValues)) {
+            if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
+                foreach($this->_data as $freq) {
+                    $count += $freq;
+                }
+            } else {
+                $count = count($this->_data);
+            }
+            $this->_calculatedValues['count'] = $count;
+        }
+        return $this->_calculatedValues['count'];
     }/*}}}*/
 
     /**
@@ -423,9 +523,18 @@ class Math_Stats {/*{{{*/
      * @see count()
      */
     function mean() {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return ($this->sum() / $this->count());
+        if (!array_key_exists('mean', $this->_calculatedValues)) {
+            $sum = $this->sum();
+            if (PEAR::isError($sum)) {
+                return $sum;
+            }
+            $count = $this->count();
+            if (PEAR::isError($count)) {
+                return $count;
+            }
+            $this->_calculatedValues['mean'] = $sum / $count;
+        }
+        return $this->_calculatedValues['mean'];
     }/*}}}*/
 
     /**
@@ -439,9 +548,14 @@ class Math_Stats {/*{{{*/
      * @see count()
      */
     function variance() {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return $this->__sumdiff(2) / ($this->count() - 1);
+        if (!array_key_exists('variance', $this->_calculatedValues)) {
+            $variance = $this->__calcVariance();
+            if (PEAR::isError($variance)) {
+                return $variance;
+            }
+            $this->_calculatedValues['variance'] = $variance;
+        }
+        return $this->_calculatedValues['variance'];
     }/*}}}*/
 
     /**
@@ -454,9 +568,14 @@ class Math_Stats {/*{{{*/
      * @see variance()
      */
     function stDev() {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return sqrt($this->variance());
+        if (!array_key_exists('stDev', $this->_calculatedValues)) {
+            $variance = $this->variance();
+            if (PEAR::isError($variance)) {
+                return $variance;
+            }
+            $this->_calculatedValues['stDev'] = sqrt($variance);
+        }
+        return $this->_calculatedValues['stDev'];
     }/*}}}*/
 
     /**
@@ -473,9 +592,7 @@ class Math_Stats {/*{{{*/
      * @see variance()
      */
     function varianceWithMean($mean) {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return $this->__sumdiff(2, $mean) / ($this->count() - 1);
+        return $this->__calcVariance($mean);
     }/*}}}*/
     
     /**
@@ -491,9 +608,11 @@ class Math_Stats {/*{{{*/
      * @see stDev()
      */
     function stDevWithMean($mean) {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return sqrt($this->varianceWithMean($mean));
+        $varianceWM = $this->varianceWithMean($mean);
+        if (PEAR::isError($varianceWM)) {
+            return $varianceWM;
+        }
+        return sqrt($varianceWM);
     }/*}}}*/
 
     /**
@@ -508,9 +627,14 @@ class Math_Stats {/*{{{*/
      * @see absDevWithMean()
      */
     function absDev() {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return $this->__sumabsdev() / $this->count();
+        if (!array_key_exists('absDev', $this->_calculatedValues)) {
+            $absDev = $this->__calcAbsoluteDeviation();
+            if (PEAR::isError($absdev)) {
+                return $absdev;
+            }
+            $this->_calculatedValues['absDev'] = $absDev;
+        }
+        return $this->_calculatedValues['absDev'];
     }/*}}}*/
 
     /**
@@ -526,9 +650,7 @@ class Math_Stats {/*{{{*/
      * @see absDev()
      */
     function absDevWithMean($mean) {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return $this->__sumabsdev($mean) / $this->count();
+        return $this->__calcAbsoluteDeviation($mean);
     }/*}}}*/
 
     /**
@@ -550,12 +672,26 @@ class Math_Stats {/*{{{*/
      * @see calc()
      */
     function skewness() {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        $skew = ($this->__sumdiff(3) / ($this->count() * pow($this->stDev(), 3)));
-        return $skew;
+        if (!array_key_exists('skewness', $this->_calculatedValues)) {
+            $count = $this->count();
+            if (PEAR::isError($count)) {
+                return $count;
+            }
+            $stDev = $this->stDev();
+            if (PEAR::isError($stDev)) {
+                return $stDev;
+            }
+            $sumdiff3 = $this->__sumdiff(3);
+            if (PEAR::isError($sumdiff3)) {
+                return $sumdiff3;
+            }
+            $this->_calculatedValues['skewness'] = ($sumdiff3 / ($count * pow($stDev, 3)));
+        }
+        return $this->_calculatedValues['skewness'];
     }/*}}}*/
 
+
+    // TODO : finish error handling and calc caching code
     /**
      * Calculates the kurtosis of the data distribution in the set
      * The kurtosis measures the degrees of peakedness of a distribution.
@@ -650,6 +786,37 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
 
     /**
+     * Calculates the midrange of a data set.
+     * The midrange is the average of the minimum and maximum of the data set.
+     * Handles cummulative data sets correctly
+     *
+     * @access  public
+     * @return  mixed   the midrange value on success, a PEAR_Error object otherwise    
+     * @see min()
+     * @see max()
+     * @see calc()
+     */
+    function midrange() {/*{{{*/
+        if ($this->_data == null)
+            return PEAR::raiseError("data has not been set");
+        return (($this->max() + $this->min()) / 2);
+    }/*}}}*/
+
+    function geometricMean() {/*{{{*/
+        if ($this->_data == null) {
+            return PEAR::raiseError("data has not been set");
+        }
+        $prod = $this->product();
+        if (PEAR::isError($product)) {
+            return $product;
+        }
+        if ($product == 0.0) {
+            return 0.0;
+        }
+        return power($prod , -1 * $this->count());
+    }/*}}}*/
+    
+    /**
      * Calculates the nth central moment (m{n}) of a data set.
      *
      * The definition of a sample central moment is:
@@ -698,23 +865,6 @@ class Math_Stats {/*{{{*/
             return $sum;
         }
         return ($sum / $count);
-    }/*}}}*/
-
-    /**
-     * Calculates the midrange of a data set.
-     * The midrange is the average of the minimum and maximum of the data set.
-     * Handles cummulative data sets correctly
-     *
-     * @access  public
-     * @return  mixed   the midrange value on success, a PEAR_Error object otherwise    
-     * @see min()
-     * @see max()
-     * @see calc()
-     */
-    function midrange() {/*{{{*/
-        if ($this->_data == null)
-            return PEAR::raiseError("data has not been set");
-        return (($this->max() + $this->min()) / 2);
     }/*}}}*/
 
     /**
@@ -811,6 +961,59 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
 
     /**
+     * Utility function to calculate the variance with or without
+     * a fixed mean
+     *
+     * @acess private
+     * @param $mean the fixed mean to use, null as default
+     * @return mixed a numeric value on success, a PEAR_Error otherwise
+     * @see variance()
+     * @see varianceWithMean()
+     */
+    function __calcVariance($mean = null) {/*{{{*/
+        if ($this->_data == null) {
+            return PEAR::raiseError("data has not been set");
+        }
+
+        if (is_null($mean)) {
+            $sumdiff2 = $this->__sumdiff(2);
+        } else {
+            $sumdiff2 = $this->__sumdiff(2, $mean);
+        }
+        if (PEAR::isError($sumdiff2)) {
+            return $sumdiff2;
+        }
+
+        $count = $this->count();
+        if (PEAR::isError($count)) {
+            return $count;
+        }
+        if ($count == 1) {
+            return PEAR::raiseError('cannot calculate variance of a singe data point');
+        }
+        return  ($sumdiff2 / ($count - 1));
+    }/*}}}*/
+
+    function __calcAbsoluteDeviation($mean = null) {
+        if ($this->_data == null) {
+            return PEAR::raiseError("data has not been set");
+        }
+        $count = $this->count();
+        if (PEAR::isError($count)) {
+            return $count;
+        }
+        if (is_null) {
+            $sumabsdev = $this->__sumabsdev();
+        } else {
+            $sumabsdev = $this->__sumabsdev($mean);
+        }
+        if (PEAR::isError($sumabsdev)) {
+            return $sumabsdev;
+        }
+        return sqrt($sumabsdev / $count);
+    }
+
+    /**
      * Utility function to calculate: SUM { | xi - mean | }
      *
      * @access  private
@@ -821,17 +1024,21 @@ class Math_Stats {/*{{{*/
      * @see absDevWithMean()
      */
     function __sumabsdev($mean=null) {/*{{{*/
-        if ($this->_data == null)
+        if ($this->_data == null) {
             return PEAR::raiseError("data has not been set");
-        if (is_null($mean))
+        }
+        if (is_null($mean)) {
             $mean = $this->mean();
+        }
         $sdev = 0;
         if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
-            foreach ($this->_data as $val=>$freq)
+            foreach ($this->_data as $val=>$freq) {
                 $sdev += $freq * abs($val - $mean);
+            }
         } else {
-            foreach ($this->_data as $val)
+            foreach ($this->_data as $val) {
                 $sdev += abs($val - $mean);
+            }
         }
         return $sdev;
     }/*}}}*/
@@ -876,6 +1083,6 @@ class Math_Stats {/*{{{*/
 }/*}}}*/
 
 // vim: ts=4:sw=4:et:
-// vim6: fdl=0:
+// vim6: fdl=1: fdm=marker:
 
 ?>
