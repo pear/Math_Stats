@@ -37,9 +37,9 @@
       <file role="php">Stats.php</file>
         <dir name="examples" role="example">
           <file role="php">ex_stats_simple.php</file>
-          <file role="php">ex_stats_cummulative.php</file>
+          <file role="php">ex_stats_cummulative_data.php</file>
         </dir>
-      <file role="doc">README</file>
+      <file role="doc">README-Math_Stats</file>
       </dir>
     </filelist>
   </release>
