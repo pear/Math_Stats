@@ -26,10 +26,11 @@
 
   <release>
     <license>PHP</license>
-    <version>0.8.2</version>
+    <version>0.8.3</version>
     <date>2002-05-23</date>
     <notes>
-       Another bug fix release
+       Another bug fix release. Version 0.8.2 was not released due
+	   to wrong tags and bugs.
     </notes>
     <state>beta</state>
     <filelist>
@@ -60,10 +61,11 @@
       </notes>
     </release>
     <release>
-     <version>0.8.2</version>
+     <version>0.8.3</version>
      <date>2002-05-23</date>
      <notes>
-       Another bug fix release
+       Another bug fix release. Version 0.8.2 was not released due
+	   to wrong tags and bugs.
      </notes>
     </release>
   </changelog>
