@@ -258,6 +258,20 @@ class Math_Stats {/*{{{*/
                 "skewness" => $this->skewness(),
                 "kurtosis" => $this->kurtosis(),
                 "coeff_of_variation" => $this->coeffOfVariation(),
+                "sample_central_moments" => array (
+                            1 => $this->sampleCentralMoment(1),
+                            2 => $this->sampleCentralMoment(2),
+                            3 => $this->sampleCentralMoment(3),
+                            4 => $this->sampleCentralMoment(4),
+                            5 => $this->sampleCentralMoment(5)
+                            ),
+                "sample_raw_moments" => array (
+                            1 => $this->sampleRawMoment(1),
+                            2 => $this->sampleRawMoment(2),
+                            3 => $this->sampleRawMoment(3),
+                            4 => $this->sampleRawMoment(4),
+                            5 => $this->sampleRawMoment(5)
+                            ),
                 "frequency" => $this->frequency()
             );
         } else {
@@ -370,10 +384,10 @@ class Math_Stats {/*{{{*/
         $sumN = 0;
         if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
             foreach($this->_data as $val=>$freq)
-                $sumN += $freq * pow((float)$val, $n);
+                $sumN += $freq * pow((double)$val, (double)$n);
         } else {
             foreach($this->_data as $val)
-                $sumN += pow($val, $n);
+                $sumN += pow((double)$val, (double)$n);
         }
         return $sumN;
     }/*}}}*/
@@ -636,6 +650,57 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
 
     /**
+     * Calculates the nth central moment (m{n}) of a data set.
+     *
+     * The definition of a sample central moment is:
+     *
+     *     m{n} = 1/N * SUM { (xi - avg)^n }
+     *
+     * where: N = sample size, avg = sample mean.
+     */
+    function sampleCentralMoment($n) {/*{{{*/
+        if ($n == 1) {
+            return 0;
+        }
+        $count = $this->count();
+        if (PEAR::isError($count)) {
+            return $count;
+        }
+        if ($count == 0) {
+            return PEAR::raiseError("Cannot calculate {$n}th sample moment, there are zero data entries.");
+        }
+        $sum = $this->__sumdiff($n);
+        if (PEAR::isError($sum)) {
+            return $sum;
+        }
+        return ($sum / $count);
+    }/*}}}*/
+
+    /**
+     * Calculates the nth raw moment (m{n}) of a data set.
+     *
+     * The definition of a sample central moment is:
+     *
+     *     m{n} = 1/N * SUM { xi^n }
+     *
+     * where: N = sample size, avg = sample mean.
+     */
+    function sampleRawMoment($n) {/*{{{*/
+        $count = $this->count();
+        if (PEAR::isError($count)) {
+            return $count;
+        }
+        if ($count == 0) {
+            return PEAR::raiseError("Cannot calculate {$n}th raw moment, there are zero data entries.");
+        }
+        $sum = $this->sumN($n);
+        if (PEAR::isError($sum)) {
+            return $sum;
+        }
+        return ($sum / $count);
+    }/*}}}*/
+
+    /**
      * Calculates the midrange of a data set.
      * The midrange is the average of the minimum and maximum of the data set.
      * Handles cummulative data sets correctly
@@ -721,7 +786,7 @@ class Math_Stats {/*{{{*/
      * 
      * @access private
      * @param   numeric $power  the exponent
-     * @param   optional    float   $mean   the data set mean value
+     * @param   optional    double   $mean   the data set mean value
      * @return  mixed   the sum on success, a PEAR_Error object otherwise
      *
      * @see stDev()
@@ -737,10 +802,10 @@ class Math_Stats {/*{{{*/
         $sdiff = 0;
         if ($this->_dataOption == STATS_DATA_CUMMULATIVE) {
             foreach ($this->_data as $val=>$freq)
-                $sdiff += $freq * pow(($val - $mean), $power);
+                $sdiff += $freq * pow((double)($val - $mean), (double)$power);
         } else {
             foreach ($this->_data as $val)
-                $sdiff += pow(($val - $mean), $power);
+                $sdiff += pow((double)($val - $mean), (double)$power);
         }
         return $sdiff;
     }/*}}}*/
@@ -749,7 +814,7 @@ class Math_Stats {/*{{{*/
      * Utility function to calculate: SUM { | xi - mean | }
      *
      * @access  private
-     * @param   optional    float   $mean   the mean value for the set or population
+     * @param   optional    double   $mean   the mean value for the set or population
      * @return  mixed   the sum on success, a PEAR_Error object otherwise
      *
      * @see absDev()

@@ -26,11 +26,16 @@
 
   <release>
     <license>PHP</license>
-    <version>0.8.4</version>
-    <date>2003-05-16</date>
+    <version>0.8.5</version>
+    <date>2003-05-27</date>
     <notes>
-     Fixed problem in element selection for the calculation
-     of the median. Thanks to Jeff Hoover for finding this bug.
+     Added methods sampleCentralMoment() and sampleRawMoment() to
+     calculate the corresponding nth moments of the data set.
+
+     Explicit casting of parameters passed to pow() to 
+     circumvent the warnings/errors given by some versions
+     of the PHP interpreter. Thanks to Stephen Evans for
+     pointing this problem out.
     </notes>
     <state>stable</state>
     <filelist>
@@ -45,6 +50,14 @@
     </filelist>
   </release>
   <changelog>
+  <release>
+    <version>0.8.4</version>
+    <date>2003-05-16</date>
+    <notes>
+     Fixed problem in element selection for the calculation
+     of the median. Thanks to Jeff Hoover for finding this bug.
+    </notes>
+  </release>
     <release>
      <version>0.8.4</version>
      <date>2002-05-16</date>
