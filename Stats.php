@@ -1074,7 +1074,7 @@ class Math_Stats {/*{{{*/
      */
     function sampleCentralMoment($n) {/*{{{*/
         if (!is_int($n) || $n < 1) {
-            return PEAR::isError('moment must be a positive integer >= 1.');
+            return PEAR::raiseError('moment must be a positive integer >= 1.');
         }
         
         if ($n == 1) {
@@ -1110,7 +1110,7 @@ class Math_Stats {/*{{{*/
      */
     function sampleRawMoment($n) {/*{{{*/
         if (!is_int($n) || $n < 1) {
-            return PEAR::isError('moment must be a positive integer >= 1.');
+            return PEAR::raiseError('moment must be a positive integer >= 1.');
         }
         
         $count = $this->count();
