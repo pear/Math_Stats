@@ -171,6 +171,8 @@ class Math_Stats {/*{{{*/
     function setData($arr, $opt=STATS_DATA_SIMPLE) {/*{{{*/
         $this->_data = null;
         $this->_dataOption = null;
+        if (!is_array($arr))
+            return PEAR::raiseError("invalid data, an array of numeric data was expected");
         if ($opt == STATS_DATA_SIMPLE) {
             $this->_dataOption = $opt;
             $this->_data = array_values($arr);
