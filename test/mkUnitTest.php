@@ -54,35 +54,40 @@ foreach ($public as $className=>$methods) {
 }
 
 function createUnitTest($fname, $className, $methods) {
-    $class = "<?php\n\nrequire_once 'PHPUnit.php';\nrequire_once '$fname';\n\n";
-    $class .= "class {$className}_UnitTest extends PHP_UnitTestCase { /*{{{*/\n\n";
-    $class .= "    var \$o1 = null;\n\n";
-    $class .= "    function {$className}_UnitTest(\$name) { /*{{{*/\n";
-    $class .= "        \$this->PHPUnit_TestCase(\$name);\n    } /*}}}*/\n\n";
-    $class .= "    function setUp() { /*{{{*/\n";
-    $class .= "        // set up your test vars and data\n";
-    $class .= "        \$this->o1 = new $className();\n";
-    $class .= "    } /*}}}*/\n\n";
-    $class .= "    function tearDown() { /*{{{*/\n";
-    $class .= "        // clean up after yourself\n";
-    $class .= "        unset(\$this->o1)\n";
-    $class .= "    } /*}}}*/\n\n";
+    $out = "<?php\n\nrequire_once 'PHPUnit.php';\nrequire_once '$fname';\n\n";
+    $out .= "/**\n * Unit test for {$className}\n *\n * @package {$className}\n";
+    $out .= " * @author\n * @version\n */\n";
+    $out .= "class {$className}_UnitTest extends PHP_UnitTestCase { /*{{{*/\n\n";
+    $out .= "    var \$o1 = null;\n\n";
+    $out .= "    function {$className}_UnitTest(\$name) { /*{{{*/\n";
+    $out .= "        \$this->PHPUnit_TestCase(\$name);\n    } /*}}}*/\n\n";
+    $out .= "    function setUp() { /*{{{*/\n";
+    $out .= "        // set up your test vars and data\n";
+    $out .= "        \$this->o1 = new $className();\n";
+    $out .= "    } /*}}}*/\n\n";
+    $out .= "    function tearDown() { /*{{{*/\n";
+    $out .= "        // clean up after yourself\n";
+    $out .= "        unset(\$this->o1)\n";
+    $out .= "    } /*}}}*/\n\n";
     foreach ($methods as $method) {
         // skip constructor
-        if ($className == $method) {
+        if ($outName == $method) {
             continue;
         }
         $name = 'test'.ucfirst($method);
-        $class .= "    function $name() { /*{{{*/\n";
-        $class .= "        // test of $className::$method\n";
-        $class .= "        // echo serialize(\$this->o1->{$method}()).\"\\n\";\n";
-        $class .= "        \$this->assertEquals('some_value', \$this->o1->{$method}());\n";
-        $class .= "    } /*}}}*/\n\n";
+        $out .= "    function $name() { /*{{{*/\n";
+        $out .= "        // test of $className::$method\n";
+        $out .= "        // echo serialize(\$this->o1->{$method}()).\"\\n\";\n";
+        $out .= "        \$this->assertEquals(TODO, \$this->o1->{$method}());\n";
+        $out .= "    } /*}}}*/\n\n";
     }
-    $class .= "}/*}}}*/\n\n?>";
+    $out .= "}/*}}}*/\n\n";
+    $out .= "\$suite = new PHPUnit_TestSuite('{$className}_UnitTest')\n";
+    $out .= "\$result = PHPUnit::run(\$suite);\n";
+    $out .= "echo \$result->toString();\n\n?>";
     $unitFname = "unitTest_{$className}.php";
     $fp = fopen($unitFname,'w');
-    fwrite($fp, $class);
+    fwrite($fp, $out);
     fflush($fp);
     fclose($fp);
     echo "Created $unitFname to test $className\n";
