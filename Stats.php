@@ -732,7 +732,7 @@ class Math_Stats {/*{{{*/
             foreach ($this->_data as $val=>$freq)
                 $sdev += $freq * abs($val - $mean);
         } else {
-            foreach ($this->_data as $val=>$freq)
+            foreach ($this->_data as $val)
                 $sdev += abs($val - $mean);
         }
         return $sdev;
