@@ -169,6 +169,8 @@ class Math_Stats {/*{{{*/
      * @return  mixed   true on success, a PEAR_Error object otherwise
      */
     function setData($arr, $opt=STATS_DATA_SIMPLE) {/*{{{*/
+        $this->_data = null;
+        $this->_dataOption = null;
         if ($opt == STATS_DATA_SIMPLE) {
             $this->_dataOption = $opt;
             $this->_data = array_values($arr);
@@ -754,8 +756,12 @@ class Math_Stats {/*{{{*/
                         unset($this->_data["$key"]);
                         break;
                     case STATS_USE_NULL_AS_ZERO:
-                        unset($this->_data["$key"]);
-                        $this->_data[0] += $v;
+                        if ($flag) {
+                            unset($this->_data["$key"]);
+                            $this->_data[0] += $v;
+                        } else {
+                            $this->_data[$key] = 0;
+                        }
                         break;
                     case STATS_REJECT_NULL :
                     default:
