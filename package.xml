@@ -53,6 +53,9 @@ product() methods. Unit tests have been unaffected by the change.
        <file role="doc">README-Math_Stats</file>
       </dir>
     </filelist>
+    <deps>
+     <dep type="php" rel="ge" version="4.2" />
+   </deps>
   </release>
   <changelog>
   <release>
