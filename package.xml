@@ -26,13 +26,13 @@
 
   <release>
     <license>PHP</license>
-    <version>0.8.3</version>
-    <date>2002-05-23</date>
+    <version>0.8.4</version>
+    <date>2003-05-16</date>
     <notes>
-       Another bug fix release. Version 0.8.2 was not released due
-	   to wrong tags and bugs.
+     Fixed problem in element selection for the calculation
+     of the median. Thanks to Jeff Hoover for finding this bug.
     </notes>
-    <state>beta</state>
+    <state>stable</state>
     <filelist>
       <dir name="/" baseinstalldir="Math">
       <file role="php">Stats.php</file>
@@ -46,19 +46,27 @@
   </release>
   <changelog>
     <release>
+     <version>0.8.4</version>
+     <date>2002-05-16</date>
+     <notes>
+      Fixed problem in element selection for the calculation
+      of the median. Thanks to Jeff Hoover for finding this bug.
+     </notes>
+    </release>
+    <release>
      <version>0.8.3</version>
      <date>2002-05-23</date>
      <notes>
        Another bug fix release. Version 0.8.2 was not released due
-	   to wrong tags and bugs.
+    to wrong tags and bugs.
      </notes>
     </release>
     <release>
-	  <version>0.8.1</version>
+   <version>0.8.1</version>
       <date>2002-05-23</date>
       <notes>
        Bug fix in __sumdiff() and in __sumabsdev(), which made
-	   the variance, standard deviation, etc. be calculated incorrectly.
+    the variance, standard deviation, etc. be calculated incorrectly.
       </notes>
     </release>
     <release>

@@ -593,7 +593,7 @@ class Math_Stats {/*{{{*/
         $n = count($arr);
         $h = intval($n / 2);
         if ($n % 2 == 0) {
-            $median = ($arr[$h] + $arr[$h + 1]) / 2;
+            $median = ($arr[$h] + $arr[$h - 1]) / 2;
         } else {
             $median = $arr[$h + 1];
         }
