@@ -1622,8 +1622,16 @@ class Math_Stats {/*{{{*/
         if ($flag) {
             ksort($this->_data);
             $this->_dataExpanded = array();
+            // array_pad hard-coded limit (see php-src/ext/standard/array.c)
+            $array_pad_magic_limit = 1048576;
             foreach ($this->_data as $val=>$freq) {
-                $this->_dataExpanded = array_pad($this->_dataExpanded, count($this->_dataExpanded) + $freq, $val);
+                // kludge to cover for array_pad's *features*
+                $newcount = count($this->_dataExpanded) + $freq;
+                while ($newcount > $array_pad_magic_limit) {
+                    $this->_dataExpanded = array_pad($this->_dataExpanded, $array_pad_magic_limit, $val);
+                    $newcount -= $array_pad_magic_limit;
+                }
+                $this->_dataExpanded = array_pad($this->_dataExpanded, $newcount, $val);
             }
             sort($this->_dataExpanded);
         } else {
