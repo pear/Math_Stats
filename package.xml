@@ -32,7 +32,10 @@
 <![CDATA[
 Modified the productN() method to try and avoid numeric overflow, and in case
 there is overflow to return an array of values to be multiplied, instead of
-a single resulting value.
+a single resulting value. 
+
+Changed also the geometricMean() method to work with the new productN() and
+product() methods. Unit tests have been unaffected by the change.
 ]]>
     </notes>
     <state>beta</state>
