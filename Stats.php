@@ -1595,17 +1595,17 @@ class Math_Stats {/*{{{*/
      * @see setData()
      */
     function _validate() {/*{{{*/
-        $flag = ($this->_dataOption == STATS_DATA_CUMMULATIVE);
+        $cummulativeData = ($this->_dataOption == STATS_DATA_CUMMULATIVE);
         foreach ($this->_data as $key=>$value) {
-            $d = ($flag) ? $key : $value;
-            $v = ($flag) ? $value : $key;
+            $d = ($cummulativeData) ? $key : $value;
+            $v = ($cummulativeData) ? $value : $key;
             if (!is_numeric($d)) {
                 switch ($this->_nullOption) {
                     case STATS_IGNORE_NULL :
                         unset($this->_data["$key"]);
                         break;
                     case STATS_USE_NULL_AS_ZERO:
-                        if ($flag) {
+                        if ($cummulativeData) {
                             unset($this->_data["$key"]);
                             $this->_data[0] += $v;
                         } else {
@@ -1619,12 +1619,26 @@ class Math_Stats {/*{{{*/
                 }
             }
         }
-        if ($flag) {
+
+        // expand cummulative data
+        if ($cummulativeData) {
             ksort($this->_data);
             $this->_dataExpanded = array();
-            // array_pad hard-coded limit (see php-src/ext/standard/array.c)
-            $array_pad_magic_limit = 1048576;
+            // code below avoids using array_pad, because in PHP 4 that
+            // function has a hard-coded limit of 1048576 array items
+            // see php-src/ext/standard/array.c)
+
+            //$array_pad_magic_limit = 1048576;
             foreach ($this->_data as $val=>$freq) {
+                // try an ugly kludge
+                for ($k=0; $k < $freq; $k++) {
+                    $this->_dataExpanded[] = $val;
+                }
+                /* the code below causes a core dump
+                $valArr = array_fill(0, $freq, $val);
+                $this->_dataExpanded = array_merge($this->_dataExpanded, $valArr);
+                */
+                /* the code below gives incorrect values
                 // kludge to cover for array_pad's *features*
                 $newcount = count($this->_dataExpanded) + $freq;
                 while ($newcount > $array_pad_magic_limit) {
@@ -1632,8 +1646,9 @@ class Math_Stats {/*{{{*/
                     $newcount -= $array_pad_magic_limit;
                 }
                 $this->_dataExpanded = array_pad($this->_dataExpanded, $newcount, $val);
+                */
             }
-            sort($this->_dataExpanded);
+            //sort($this->_dataExpanded);
         } else {
             sort($this->_data);
         }
