@@ -1342,7 +1342,7 @@ class Math_Stats {/*{{{*/
     }/*}}}*/
 
     /**
-     * The quartile variation coefficient is defines as follows:
+     * The quartile variation coefficient is defined as follows:
      *
      *  quart var coeff = 100 * (P(75) - P(25)) / (P(75) + P(25))
      *
