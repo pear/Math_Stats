@@ -23,8 +23,7 @@
  * @package	Math_Stats
  */
 
-//require_once "Math/Stats.php";
-require_once "../Stats.php";
+require_once "Math/Stats.php";
 
 // making some cummulative data sets
 

@@ -23,8 +23,7 @@
  * @package	Math_Stats
  */
 
-//require_once "Math/Stats.php";
-require_once "../Stats.php";
+require_once "Math/Stats.php";
 
 // making some data sets
 $data = array (2,2.3,4.5,2,2,3.2,5.3,3,4,5,1,6);
