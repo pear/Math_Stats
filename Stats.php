@@ -1214,6 +1214,9 @@ class Math_Stats {/*{{{*/
                 $freq = array();
                 foreach ($this->_data as $val) {
                     if (array_key_exists($val, $freq)) {
+                        if (!isset($freq["$val"])) {
+                            $freq["$val"] = 0;
+                        }
                         $freq["$val"]++;
                     } else {
                         $freq["$val"] = 1;
