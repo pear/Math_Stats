@@ -1,69 +1,81 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<!-- do not use the "Type" attribute here, that one is only for
-     generated package.xml files -->
-<package>
-
-  <name>Math_Stats</name>
-  <summary>Classes to calculate statistical parameters</summary>
-  <description>
-   Package to calculate statistical parameters of numerical arrays
-   of data. The data can be in a simple numerical array, or in a 
-   cummulative numerical array. A cummulative array, has the value
-   as the index and the number of repeats as the value for the
-   array item, e.g. $data = array(3=>4, 2.3=>5, 1.25=>6, 0.5=>3).
-   Nulls can be rejected, ignored or handled as zero values.
-  </description>
-
-  <maintainers>
-    <maintainer>
-      <user>jmcastagnetto</user>
-      <name>Jesus M. Castagnetto</name>
-      <email>jmcastagnetto@php.net</email>
-      <role>lead</role>
-    </maintainer>
-  </maintainers>
-
-  <release>
-    <license>PHP</license>
-    <version>0.9.0beta3</version>
-    <date>2003-06-12</date>
-    <notes>
-<![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Math_Stats</name>
+ <channel>pear.php.net</channel>
+ <summary>Classes to calculate statistical parameters</summary>
+ <description>Package to calculate statistical parameters of numerical arrays
+of data. The data can be in a simple numerical array, or in a 
+cummulative numerical array. A cummulative array, has the value
+as the index and the number of repeats as the value for the
+array item, e.g. $data = array(3=&gt;4, 2.3=&gt;5, 1.25=&gt;6, 0.5=&gt;3).
+Nulls can be rejected, ignored or handled as zero values.
+ </description>
+ <lead>
+  <name>Jesus M. Castagnetto</name>
+  <user>jmcastagnetto</user>
+  <email>jmcastagnetto@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-10-03</date>
+ <time>03:10:00</time>
+ <version>
+  <release>0.9.0beta3</release>
+  <api>0.9.0beta3</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP</license>
+ <notes>
 Modified the productN() method to try and avoid numeric overflow, and in case
 there is overflow to return an array of values to be multiplied, instead of
 a single resulting value. 
 
 Changed also the geometricMean() method to work with the new productN() and
 product() methods. Unit tests have been unaffected by the change.
-]]>
-    </notes>
-    <state>beta</state>
-    <filelist>
-      <dir name="/" baseinstalldir="Math">
-       <file role="php">Stats.php</file>
-       <dir name="examples" role="example">
-        <file role="php">ex_stats_simple.php</file>
-        <file role="php">ex_stats_cummulative_data.php</file>
-       </dir>
-       <dir name="test" role="test">
-        <file role="php">test_Math_Stats_instance_methods.php</file>
-        <file role="php">test_Math_Stats_instance_methods-data.php</file>
-       </dir>
-       <file role="doc">README-Math_Stats</file>
-      </dir>
-    </filelist>
-    <deps>
-     <dep type="php" rel="ge" version="4.2" />
-   </deps>
-  </release>
-  <changelog>
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="examples">
+    <file baseinstalldir="Math" name="ex_stats_cummulative_data.php" role="php" />
+    <file baseinstalldir="Math" name="ex_stats_simple.php" role="php" />
+   </dir> <!-- /examples -->
+   <dir name="test">
+    <file baseinstalldir="Math" name="test_Math_Stats_instance_methods-data.php" role="php" />
+    <file baseinstalldir="Math" name="test_Math_Stats_instance_methods.php" role="php" />
+   </dir> <!-- /test -->
+   <file baseinstalldir="Math" name="README-Math_Stats" role="doc" />
+   <file baseinstalldir="Math" name="Stats.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
   <release>
-    <license>PHP</license>
-    <version>0.9.0beta2</version>
-    <date>2003-06-04</date>
-    <notes>
-<![CDATA[
+   <version>
+    <release>0.9.0beta2</release>
+    <api>0.9.0beta2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2003-06-04</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
 This is a bug fix release. Fixes (finally) an old bug in calculation of the
 median. Users of any previous version are recommended to upgrade.
 
@@ -73,16 +85,20 @@ odd number of entries.
 
 Thanks to Diego Puga for pointing this out. It is good to get bug reports
 when one is getting old and forgetful. ;-)
-]]>
-    </notes>
-    <state>beta</state>
+   </notes>
   </release>
   <release>
-    <license>PHP</license>
-    <version>0.9.0beta1</version>
-    <date>2003-06-02</date>
-    <notes>
-<![CDATA[
+   <version>
+    <release>0.9.0beta1</release>
+    <api>0.9.0beta1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2003-06-02</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
 This is a beta release that containes new not thoroughly tested methods and
 algorithms.
 
@@ -110,64 +126,106 @@ Many changes in the existing methods, and a number of new ones:
   - quartileVariationCoefficient()
   - quartileSkewnessCoefficient()
 - Added a unit test class based on PEAR::PHPUnit
-]]>
-    </notes>
-    <state>beta</state>
+   </notes>
   </release>
   <release>
-    <license>PHP</license>
-    <version>0.8.5</version>
-    <date>2003-05-27</date>
-    <notes>
-     Added methods sampleCentralMoment() and sampleRawMoment() to
-     calculate the corresponding nth moments of the data set.
-
-     Explicit casting of parameters passed to pow() to 
-     circumvent the warnings/errors given by some versions
-     of the PHP interpreter. Thanks to Stephen Evans for
-     pointing this problem out.
-    </notes>
-    <state>stable</state>
+   <version>
+    <release>0.8.5</release>
+    <api>0.8.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-05-27</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Added methods sampleCentralMoment() and sampleRawMoment() to
+calculate the corresponding nth moments of the data set.
+Explicit casting of parameters passed to pow() to 
+circumvent the warnings/errors given by some versions
+of the PHP interpreter. Thanks to Stephen Evans for
+pointing this problem out.
+   </notes>
   </release>
   <release>
-    <version>0.8.4</version>
-    <date>2003-05-16</date>
-    <notes>
-     Fixed problem in element selection for the calculation
-     of the median. Thanks to Jeff Hoover for finding this bug.
-    </notes>
+   <version>
+    <release>0.8.4</release>
+    <api>0.8.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-05-16</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Fixed problem in element selection for the calculation
+of the median. Thanks to Jeff Hoover for finding this bug.
+   </notes>
   </release>
-    <release>
-     <version>0.8.4</version>
-     <date>2002-05-16</date>
-     <notes>
-      Fixed problem in element selection for the calculation
-      of the median. Thanks to Jeff Hoover for finding this bug.
-     </notes>
-    </release>
-    <release>
-     <version>0.8.3</version>
-     <date>2002-05-23</date>
-     <notes>
-       Another bug fix release. Version 0.8.2 was not released due
-    to wrong tags and bugs.
-     </notes>
-    </release>
-    <release>
-   <version>0.8.1</version>
-      <date>2002-05-23</date>
-      <notes>
-       Bug fix in __sumdiff() and in __sumabsdev(), which made
-    the variance, standard deviation, etc. be calculated incorrectly.
-      </notes>
-    </release>
-    <release>
-      <version>0.8.0</version>
-      <date>2002-05-15</date>
-      <notes>
-        Initial release
-      </notes>
-    </release>
-  </changelog>
-
+  <release>
+   <version>
+    <release>0.8.4</release>
+    <api>0.8.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-16</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Fixed problem in element selection for the calculation
+of the median. Thanks to Jeff Hoover for finding this bug.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.3</release>
+    <api>0.8.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-23</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Another bug fix release. Version 0.8.2 was not released due
+to wrong tags and bugs.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.1</release>
+    <api>0.8.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-23</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Bug fix in __sumdiff() and in __sumabsdev(), which made
+the variance, standard deviation, etc. be calculated incorrectly.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.0</release>
+    <api>0.8.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-15</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Initial release
+   </notes>
+  </release>
+ </changelog>
 </package>

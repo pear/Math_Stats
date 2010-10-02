@@ -25,9 +25,9 @@
  * @package Math_Stats
  */
 
-require_once 'PHPUnit.php';
+require_once 'PHPUnit/Framework.php';
 require_once 'Math/Stats.php';
-require_once './test_Math_Stats_instance_methods-data.php';
+require_once 'test_Math_Stats_instance_methods-data.php';
 
 define('__PRECISION', 12);
 define('__DELTA', pow(10, -1 * (__PRECISION - 4)));
@@ -39,7 +39,7 @@ ini_set('precision', __PRECISION);
  * Unit test class Math_Stats
  *
  */
-class Math_Stats_UnitTest extends PHPUnit_TestCase {/*{{{*/
+class Math_StatsTest extends PHPUnit_Framework_TestCase {/*{{{*/
 
     var $s1;
     var $s2a;
@@ -62,7 +62,6 @@ class Math_Stats_UnitTest extends PHPUnit_TestCase {/*{{{*/
     }/*}}}*/
 
     function setUp() {/*{{{*/
-        $this->setLooselyTyped(true);
         // simple data sets
         $this->s1 = new Math_Stats(STATS_REJECT_NULL);
         $this->s1->setData($this->data1);
@@ -884,10 +883,3 @@ class Math_Stats_UnitTest extends PHPUnit_TestCase {/*{{{*/
 
 }/*}}}*/
 
-$suite = new PHPUnit_TestSuite('Math_Stats_UnitTest');
-$result = PHPUnit::run($suite);
-echo $result->toString();
-
-// vim: ts=4:sw=4:et:
-// vim6: fdl=1: fdm=marker:
-?>
