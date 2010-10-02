@@ -777,8 +777,8 @@ class Math_Stats {/*{{{*/
     function absDev() {/*{{{*/
         if (!array_key_exists('absDev', $this->_calculatedValues)) {
             $absDev = $this->__calcAbsoluteDeviation();
-            if (PEAR::isError($absdev)) {
-                return $absdev;
+            if (PEAR::isError($absDev)) {
+                return $absDev;
             }
             $this->_calculatedValues['absDev'] = $absDev;
         }
