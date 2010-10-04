@@ -15,8 +15,8 @@ Nulls can be rejected, ignored or handled as zero values.</description>
   <email>jmcastagnetto@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-10-03</date>
- <time>03:29:07</time>
+ <date>2010-10-04</date>
+ <time>22:38:46</time>
  <version>
   <release>0.9.0</release>
   <api>0.9.0</api>
@@ -28,11 +28,7 @@ Nulls can be rejected, ignored or handled as zero values.</description>
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
 QA release
-Updated svn structure
-Unit tests updated to phpunit 3.4
-Bug #3315 frequency() generates notices
-Bug #6252 Calculation of frequency gives an E_NOTICE
-Bug #12465 Median formula incorrect
+Bug #17924 	frequency and test suite broken
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -44,7 +40,7 @@ Bug #12465 Median formula incorrect
    <file baseinstalldir="/" md5sum="80fe164540c65e39540353036791f8dc" name="docs/examples/ex_stats_bigdataset.php" role="doc" />
    <file baseinstalldir="/" md5sum="86259102f97ff924467a7f3b64208556" name="docs/examples/ex_stats_cummulative_data.php" role="doc" />
    <file baseinstalldir="/" md5sum="6cb955d576053cc06af03aa235698d3b" name="docs/examples/ex_stats_simple.php" role="doc" />
-   <file baseinstalldir="/" md5sum="72b9228e127657482e87289b6dcbb6e8" name="Math/Stats.php" role="php" />
+   <file baseinstalldir="/" md5sum="38375662888986b7f75b913f286d0f92" name="Math/Stats.php" role="php" />
    <file baseinstalldir="/" md5sum="e94fcc731b9f0b9d37e8a97149a860d9" name="tests/AllTests.php" role="test" />
    <file baseinstalldir="/" md5sum="615133f4091f431f07151fd55f2b9646" name="tests/Math_StatsTest.php" role="test" />
    <file baseinstalldir="/" md5sum="91ef36bc4f148b912f7922720905d5a9" name="tests/test_Math_Stats_instance_methods-data.php" role="test" />
@@ -79,22 +75,6 @@ Initial release
   </release>
   <release>
    <version>
-    <release>0.8.4</release>
-    <api>0.8.4</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2003-05-16</date>
-   <license uri="http://www.php.net/license">PHP</license>
-   <notes>
-Fixed problem in element selection for the calculation
-of the median. Thanks to Jeff Hoover for finding this bug.
-   </notes>
-  </release>
-  <release>
-   <version>
     <release>0.8.1</release>
     <api>0.8.1</api>
    </version>
@@ -123,6 +103,22 @@ the variance, standard deviation, etc. be calculated incorrectly.
    <notes>
 Another bug fix release. Version 0.8.2 was not released due
 to wrong tags and bugs.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.4</release>
+    <api>0.8.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-05-16</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+Fixed problem in element selection for the calculation
+of the median. Thanks to Jeff Hoover for finding this bug.
    </notes>
   </release>
   <release>
@@ -218,15 +214,11 @@ when one is getting old and forgetful. ;-)
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2010-10-03</date>
+   <date>2010-10-04</date>
    <license uri="http://www.php.net/license">PHP</license>
    <notes>
 QA release
-Updated svn structure
-Unit tests updated to phpunit 3.4
-Bug #3315 frequency() generates notices
-Bug #6252 Calculation of frequency gives an E_NOTICE
-Bug #12465 Median formula incorrect
+Bug #17924 	frequency and test suite broken
    </notes>
   </release>
  </changelog>
