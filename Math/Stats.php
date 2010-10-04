@@ -1213,14 +1213,10 @@ class Math_Stats {/*{{{*/
             } else {
                 $freq = array();
                 foreach ($this->_data as $val) {
-                    if (isset($freq[$val])) {
-                        if (!isset($freq["$val"])) {
-                            $freq["$val"] = 0;
-                        }
-                        $freq["$val"]++;
-                    } else {
-                        $freq["$val"] = 1;
+                    if (!isset($freq["$val"])) {
+                        $freq["$val"] = 0;
                     }
+                    $freq["$val"]++;
                 }
                 ksort($freq);
             }
