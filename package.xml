@@ -16,9 +16,9 @@ Nulls can be rejected, ignored or handled as zero values.</description>
   <active>yes</active>
  </lead>
  <date>2010-10-04</date>
- <time>22:38:46</time>
+ <time>22:39:26</time>
  <version>
-  <release>0.9.0</release>
+  <release>0.9.1</release>
   <api>0.9.0</api>
  </version>
  <stability>
@@ -208,6 +208,26 @@ when one is getting old and forgetful. ;-)
   <release>
    <version>
     <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-10-04</date>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+QA release
+Updated svn structure
+Unit tests updated to phpunit 3.4
+Bug #3315 frequency() generates notices
+Bug #6252 Calculation of frequency gives an E_NOTICE
+Bug #12465 Median formula incorrect
+</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.1</release>
     <api>0.9.0</api>
    </version>
    <stability>
