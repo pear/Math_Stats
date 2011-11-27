@@ -15,7 +15,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: Jesus M. Castagnetto <jmcastagnetto@php.net>                |
 // +----------------------------------------------------------------------+
-// 
+//
 // $Id$
 //
 
@@ -25,7 +25,7 @@
  * @package Math_Stats
  */
 
-require_once 'PHPUnit/Framework.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Math/Stats.php';
 require_once 'test_Math_Stats_instance_methods-data.php';
 
@@ -98,32 +98,32 @@ class Math_StatsTest extends PHPUnit_Framework_TestCase {/*{{{*/
 	}/*}}}*/
 
     function testCalcBasic() {/*{{{*/
-        $this->assertEquals($GLOBALS['testCalcBasic_out1'], 
+        $this->assertEquals($GLOBALS['testCalcBasic_out1'],
                             $this->formatArray($this->s1->calcBasic(false)));
-        $this->assertEquals($GLOBALS['testCalcBasic_out2'], 
+        $this->assertEquals($GLOBALS['testCalcBasic_out2'],
                             $this->formatArray($this->s2a->calcBasic(false)));
-        $this->assertEquals($GLOBALS['testCalcBasic_out3'], 
+        $this->assertEquals($GLOBALS['testCalcBasic_out3'],
                             $this->formatArray($this->s2b->calcBasic(false)));
-        $this->assertEquals($GLOBALS['testCalcBasic_out4'], 
+        $this->assertEquals($GLOBALS['testCalcBasic_out4'],
                             $this->formatArray($this->s3->calcBasic(false)));
-        $this->assertEquals($GLOBALS['testCalcBasic_out5'], 
+        $this->assertEquals($GLOBALS['testCalcBasic_out5'],
                             $this->formatArray($this->s4a->calcBasic(false)));
-        $this->assertEquals($GLOBALS['testCalcBasic_out6'], 
+        $this->assertEquals($GLOBALS['testCalcBasic_out6'],
                             $this->formatArray($this->s4b->calcBasic(false)));
 	}/*}}}*/
 
     function testCalcFull() {/*{{{*/
-        $this->assertEquals($GLOBALS['testCalcFull_out1'], 
+        $this->assertEquals($GLOBALS['testCalcFull_out1'],
                             $this->formatArray($this->s1->calcFull(false)));
-        $this->assertEquals($GLOBALS['testCalcFull_out2'], 
+        $this->assertEquals($GLOBALS['testCalcFull_out2'],
                             $this->formatArray($this->s2a->calcFull(false)));
-        $this->assertEquals($GLOBALS['testCalcFull_out3'], 
+        $this->assertEquals($GLOBALS['testCalcFull_out3'],
                             $this->formatArray($this->s2b->calcFull(false)));
-        $this->assertEquals($GLOBALS['testCalcFull_out4'], 
+        $this->assertEquals($GLOBALS['testCalcFull_out4'],
                             $this->formatArray($this->s3->calcFull(false)));
-        $this->assertEquals($GLOBALS['testCalcFull_out5'], 
+        $this->assertEquals($GLOBALS['testCalcFull_out5'],
                             $this->formatArray($this->s4a->calcFull(false)));
-        $this->assertEquals($GLOBALS['testCalcFull_out6'], 
+        $this->assertEquals($GLOBALS['testCalcFull_out6'],
                             $this->formatArray($this->s4b->calcFull(false)));
 	}/*}}}*/
 
@@ -840,27 +840,27 @@ class Math_StatsTest extends PHPUnit_Framework_TestCase {/*{{{*/
 
     function testStudentize() {/*{{{*/
         $this->s1->studentize();
-        $this->assertEquals($GLOBALS['testStudentize_out1'], 
+        $this->assertEquals($GLOBALS['testStudentize_out1'],
                             $this->formatArray($this->s1->getData()));
-        $this->assertEquals($GLOBALS['testStudentize_out2'], 
+        $this->assertEquals($GLOBALS['testStudentize_out2'],
                             $this->formatArray($this->s1->calcFull(false)));
         $this->s3->studentize();
-        $this->assertEquals($GLOBALS['testStudentize_out3'], 
+        $this->assertEquals($GLOBALS['testStudentize_out3'],
                             $this->formatArray($this->s3->getData()));
-        $this->assertEquals($GLOBALS['testStudentize_out4'], 
+        $this->assertEquals($GLOBALS['testStudentize_out4'],
                             $this->formatArray($this->s3->calcFull(false)));
     }/*}}}*/
 
     function testCenter() {/*{{{*/
         $this->s1->center();
-        $this->assertEquals($GLOBALS['testCenter_out1'], 
+        $this->assertEquals($GLOBALS['testCenter_out1'],
                             $this->formatArray($this->s1->getData()));
-        $this->assertEquals($GLOBALS['testCenter_out2'], 
+        $this->assertEquals($GLOBALS['testCenter_out2'],
                             $this->formatArray($this->s1->calcFull(false)));
         $this->s3->center();
-        $this->assertEquals($GLOBALS['testCenter_out3'], 
+        $this->assertEquals($GLOBALS['testCenter_out3'],
                             $this->formatArray($this->s3->getData()));
-        $this->assertEquals($GLOBALS['testCenter_out4'], 
+        $this->assertEquals($GLOBALS['testCenter_out4'],
                             $this->formatArray($this->s3->calcFull(false)));
     }/*}}}*/
 
