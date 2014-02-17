@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "Math_Stats": "./"
+            "Math": "./"
         }
     },
     "description": "More info available on: http://pear.php.net/package/Math_Stats",
