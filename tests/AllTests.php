@@ -4,8 +4,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Math_Stats_AllTests::main');
 }
 
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
 require_once 'Math_StatsTest.php';
 
 class Math_Stats_AllTests
